@@ -2,8 +2,9 @@ import { useState,useEffect} from "react";
 
 
 function Dashboard() {
-    const [donor,setDonors] = useState([]);
+    const [donors,setDonors] = useState([]);
     const [loading,setLoading] = useState(true);
+    const [selectedBloodGroup,setSelectedBloodGroup] = useState("");
    
 
     useEffect(() =>{
@@ -30,25 +31,66 @@ function Dashboard() {
            setLoading(false);
 
       });
-       
+
 
     },[]);
+
+    
+      
+       
 
     if(loading){
         return <h1>Loading...</h1>
     }
 
+    const filteredDonors = donors.filter(donor => {
+        if(selectedBloodGroup === ""){
+            return true;
+        }else{
+            return donor.bloodGroup === selectedBloodGroup;
+        }
+    });
+
+    const availableCount = filteredDonors.filter(donor => donor.availability === true).length;
+
+
+    function handleRequest(id){
+        setDonors(
+            donors.map(donor =>{
+                if(donor.id === id){
+                    return {...donor , requested:true};
+                }else{
+                    return donor;
+                }
+            })
+        )
+    }
+
   return (
     <>
-    <h1>Total Donors: {donor.length}</h1>
-    {donor.map(donor =>(
+    <h1>Total Donors: {donors.length}</h1>
+    <h2>Available Donors: {availableCount}</h2>
+    <select value={selectedBloodGroup} onChange={(e) => setSelectedBloodGroup(e.target.value)}>
+        <option value="">All</option>
+        <option value="A+">A+</option>
+        <option value="B+">B+</option>
+        <option value="O-">O-</option>
+        <option value="AB+">AB+</option>
+    </select>
+    {filteredDonors.map(donor =>(
         <div key={donor.id}>
             <p>Name: {donor.name}</p>
             <p>Email: {donor.email}</p>
             <p>Blood Group: {donor.bloodGroup}</p>
             <p>Available: {donor.availability ? "Yes" : "No"}</p>
+            <button onClick={() =>
+                 handleRequest(donor.id)}
+                 disabled = {donor.requested}
+            >{donor.requested ? "Request Sent" : "Request Help"}</button>
         </div>
     ))}
+
+    
     </>
   )
 }
