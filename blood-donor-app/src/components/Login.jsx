@@ -3,10 +3,10 @@ import coverImage from "../assets/blood-donation.jpg";
 
 function Login({ onLogin }) {
   return (
-      <div className="h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-gray-100">
       
     
-      <div className="relative h-[65vh]">
+      <div className="relative h-[70vh]">
         
           <img
           src={coverImage}
@@ -14,25 +14,25 @@ function Login({ onLogin }) {
           className="w-full h-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-red-700/70 flex flex-col justify-center items-center text-white px-6 text-center">
-          <h1 className='text-4xl font-bold mb-2'>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-red-800/80 flex flex-col justify-center items-center text-white text-center px-6 ">
+          <h1 className='text-5xl font-extrabold leading-tight'>
           Donate Blood,
         </h1>
-        <h1 className="text-4xl font-bold mb-4">
-          Save Life!
+        <h1 className="text-3xl font-bold mt-2">
+          Save Lives
         </h1>
 
-        <p className="text-sm text-red-100 max--w-md">
-          Your small act of kindness can save someone's life.
-          Join our community of life savers.
+        <p className="mt-4 text-red-100 max-w-md">
+          Every drop counts. Join our community and make
+          a difference today.
         </p>
       </div>
     </div>  
 
-      <div className='h-[35vh] bg-gray-100 flex items-center justify-center px-6 pt-8'>
+      <div className='flex-1 flex items-center justify-center px-6'>
     <button 
        onClick={onLogin}
-       className="w-full max-w-md bg-red-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:bg-red-700 transition">
+       className="w-full max-w-md bg-red-600 text-white py-4 rounded-2xl font-semibold shadow-lg hover:bg-red-700 transition">
         Get Started
         </button>
       </div>

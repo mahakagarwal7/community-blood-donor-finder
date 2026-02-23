@@ -12,7 +12,7 @@ function App() {
     }
    
     if(isLoggedIn){
-      return <Dashboard/>
+      return <Dashboard onLogout={() => setIsLoggedIn(false)}/>
     }else{
        return <Login onLogin={handleLogin} />
     }
