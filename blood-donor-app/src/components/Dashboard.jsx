@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { UsersIcon, HeartIcon } from "@heroicons/react/24/outline";
 
 function Dashboard({ onLogout }) {
   const [donors, setDonors] = useState([]);
@@ -110,48 +111,40 @@ function Dashboard({ onLogout }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-    <div className="relative h-[320px] rounded-b-3xl overflow-hidden">
+      <div className="relative h-[320px] rounded-b-3xl overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1600&q=80"
+          alt="Blood Donation"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
- 
-  <img
-    src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1600&q=80"
-    alt="Blood Donation"
-    className="absolute inset-0 w-full h-full object-cover"
-  />
+        <div className="absolute inset-0 bg-black/50"></div>
 
-  <div className="absolute inset-0 bg-black/50"></div>
+        <div className="relative z-10 h-full flex flex-col justify-center px-10 text-white">
+          <h1 className="text-4xl font-bold">LifeSaver Network</h1>
 
-  
-  <div className="relative z-10 h-full flex flex-col justify-center px-10 text-white">
+          <p className="mt-3 max-w-xl text-gray-200">
+            Connecting blood donors with those in need. Search, filter and
+            request instantly.
+          </p>
 
-    <h1 className="text-4xl font-bold">
-      LifeSaver Network
-    </h1>
+          <div className="absolute top-6 right-8 flex gap-3">
+            <button
+              onClick={() => setShowQueryModal(true)}
+              className="backdrop-blur-md bg-white/20 border border-white/30 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/30 transition"
+            >
+              Raise Query
+            </button>
 
-    <p className="mt-3 max-w-xl text-gray-200">
-      Connecting blood donors with those in need.
-      Search, filter and request instantly.
-    </p>
-
-   
-    <div className="absolute top-6 right-8 flex gap-3">
-      <button
-        onClick={() => setShowQueryModal(true)}
-        className="backdrop-blur-md bg-white/20 border border-white/30 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/30 transition"
-      >
-        Raise Query
-      </button>
-
-      <button
-        onClick={onLogout}
-        className="backdrop-blur-md bg-white/20 border border-white/30 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/30 transition"
-      >
-        Logout
-      </button>
-    </div>
-
-  </div>
-</div>
+            <button
+              onClick={onLogout}
+              className="backdrop-blur-md bg-white/20 border border-white/30 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/30 transition"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="p-6 space-y-6 -mt-6">
         <div className="bg-white p-4 rounded-xl shadow-md space-y-4">
           <input
@@ -177,12 +170,17 @@ function Dashboard({ onLogout }) {
             <option value="O-">O-</option>
             <option value="AB-">AB-</option>
           </select>
-
           <button
             onClick={() => setSortByAvailability(!sortByAvailability)}
-            className="w-full  bg-red-600  text-white py-3 rounded-lg hover:bg-red-700 transition"
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition border ${
+              sortByAvailability
+                ? "bg-red-600 text-white border-red-600"
+                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-100"
+            }`}
           >
-            {sortByAvailability ? "Disable Sort" : "Sort Available First"}
+            {sortByAvailability
+              ? "✔ Available First"
+              : "⇅ Sort by Availability"}
           </button>
         </div>
 
@@ -192,6 +190,7 @@ function Dashboard({ onLogout }) {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-white p-5 rounded-2xl shadow-md text-center">
+            <UsersIcon className="w-8 h-8 text-red-500 mb-2" />
             <p className="text-gray-500 text-sm">Total Donors</p>
             <p className="text-3xl font-bold text-red-600 mt-1">
               {sortedDonors.length}
@@ -199,6 +198,7 @@ function Dashboard({ onLogout }) {
           </div>
 
           <div className="bg-white p-5 rounded-2xl shadow-md text-center">
+            <HeartIcon className="w-8 h-8 text-green-500 mb-2" />
             <p className="text-gray-500 text-sm">Available Donors</p>
             <p className="text-3xl font-bold text-green-600 mt-1">
               {availableCount}
@@ -206,7 +206,7 @@ function Dashboard({ onLogout }) {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {sortedDonors.length === 0 ? (
             <h3 className="text-center col-span-2">
               No donors found for the selected filters. Try changing blood group
@@ -216,13 +216,13 @@ function Dashboard({ onLogout }) {
             sortedDonors.map((donor) => (
               <div
                 key={donor.id}
-                className="bg-white p-5 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-200 space-y-3"
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-200 p-6 flex flex-col justify-between aspect-square"
               >
                 <p className="font-semibold text-lg">{donor.name}</p>
 
                 <p className="text-sm text-gray-600">{donor.email}</p>
 
-                <p className="text-sm">City: {donor.city}</p>
+                <p className="text-sm mt-2">City: {donor.city}</p>
 
                 <p className="text-sm">Blood Group: {donor.bloodGroup}</p>
 
@@ -238,13 +238,20 @@ function Dashboard({ onLogout }) {
 
                 <button
                   onClick={() => handleRequest(donor.id)}
+                  disabled={!donor.availability}
                   className={`w-full py-2 rounded-md transition ${
-                    donor.requested
-                      ? "bg-gray-500 text-white hover:bg-gray-600"
-                      : "bg-red-600 text-white hover:bg-red-700"
+                    !donor.availability
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : donor.requested
+                        ? "bg-gray-500 text-white hover:bg-gray-600"
+                        : "bg-red-600 text-white hover:bg-red-700"
                   }`}
                 >
-                  {donor.requested ? "Withdraw Request" : "Request Help"}
+                  {!donor.availability
+                    ? "Unavailable"
+                    : donor.requested
+                      ? "Withdraw Request"
+                      : "Request Help"}
                 </button>
 
                 {donor.requested && (
